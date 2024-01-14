@@ -5,6 +5,7 @@ import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string
   tags: ITagData[]
+  effect?: string
 }
 
 abstract class PilotEquipment extends CompendiumItem {
@@ -40,6 +41,7 @@ abstract class PilotEquipment extends CompendiumItem {
     this._cascading = false
     this._loaded = true
     this._custom_damage_type = null
+    this.Effect = data.effect || ''
     if (data.tags) {
       const ltd = data.tags.find(x => x.id === 'tg_limited')
       this.IsLimited = !!ltd
