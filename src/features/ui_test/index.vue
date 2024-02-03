@@ -363,8 +363,22 @@ export default Vue.extend({
       console.log('dialog 1 confirmed')
     },
     doNotify() {
+      
+      if(this.$vuetify.theme.isDark){
+        console.info(this.$vuetify.theme.themes.dark.primary)
+        this.$vuetify.theme.themes.dark.primary="#11ff11"
+        console.info(this.$vuetify.theme.themes.dark.primary)
+      }
+      if(!this.$vuetify.theme.isDark){
+        console.info(this.$vuetify.theme.themes.light.primary)
+        this.$vuetify.theme.themes.light.primary="#11ff11"
+        console.info(this.$vuetify.theme.themes.light.primary)
+      }
+      //TODO persist into a custom theme loaded from storage?
+      //simple table should do
       this.$notify(this.notificationText, this.notificationType, () =>
         console.log('yup, you clicked the notification!', this)
+        
       )
     },
   },
