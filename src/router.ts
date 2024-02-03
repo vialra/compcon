@@ -29,6 +29,11 @@ const r = new Router({
       name: 'ui-test',
       component: require('@/features/ui_test/index').default,
     },
+    {
+      path: '/ui-customizer',
+      name: 'ui-customizer',
+      component: require('@/features/ui_customizer/index').default,
+    },
     ...compendiumRoutes.map(route => ({
       ...route,
       path: (route.path = '/compendium/' + route.path),

@@ -180,6 +180,9 @@
       <router-link to="./ui-test">
         <v-btn small text>UI Test</v-btn>
       </router-link>
+      <router-link to="./ui-customizer">
+        <v-btn small text>UI Customizer</v-btn>
+      </router-link>
     </div>
   </div>
 </template>
@@ -253,6 +256,7 @@ export default Vue.extend({
       const e = allThemes[k]
       this.themes.push({ name: e.name, value: e.id })
     }
+    this.themes.push({name: "custom", value: "custom"})
   },
   methods: {
     reload() {

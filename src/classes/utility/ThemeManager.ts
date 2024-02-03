@@ -35,6 +35,12 @@ const SetTheme = (t: string, vuetify: any) => {
     vuetify.theme.themes.light = theme.colors
     vuetify.theme.dark = false
   }
+
+  if(t=="custom"){
+    console.info("yay i read it")
+    vuetify.theme.themes.dark = JSON.parse(localStorage.getItem("customtheme"))
+    vuetify.theme.themes.light = JSON.parse(localStorage.getItem("customtheme"))
+  }
 }
 
 export { getThemePreload, SetTheme }
