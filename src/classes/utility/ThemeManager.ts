@@ -26,7 +26,7 @@ const getThemePreload = () => {
 const SetTheme = (t: string, vuetify: any) => {
   const theme = themes[t] ? themes[t] : themes['gms']
   const isDark = theme.type === 'dark'
-  console.info("i am getting invoked")
+  console.info("i am getting invoked at f5 loading should be here")
 
   if (isDark) {
     vuetify.theme.themes.dark = theme.colors
