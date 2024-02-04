@@ -23,6 +23,10 @@
         <v-color-picker v-model="colorpickerAccent" mode="hexa" @update:color="updateUI"></v-color-picker>
         Accent
       </v-col>
+      <v-col>
+        <v-color-picker v-model="colorpickerHeaders" mode="hexa" @update:color="updateUI"></v-color-picker>
+        Headers
+      </v-col>
     </v-row>
     <v-row>
       <v-switch v-model="themeMode" color="secondary" inset dense hide-details @change="updateUI">
@@ -219,6 +223,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 const icons = [
   'npc-template',
@@ -348,12 +354,26 @@ export default Vue.extend({
     notificationTypes: ['achievement', 'confirmation', 'error'],
     notificationType: 'confirmation',
     exampleTalents: [],
+    chargeExample: null,
+    deployExample: null,
+    droneExample: null,
+    multipleExample: null,
+    aiExample: null,
+    techExample: null,
+    reactionExample: null,
+    genericExample: null,
+    profileExample: null,
+    onAttackExample: null,
+    onHitExample: null,
+    onCritExample: null,
+    asDroneExample: null,
 
     themeMode: false,
     colorpickerPrimary: '#1976D2',
     colorpickerSecondary: '#1976D2',
     colorpickerAccent: '#1976D2',
     colorpickerBackground: '#1976D2',
+    colorpickerHeaders: '#1976D2',
     
   }),
   computed: {
@@ -364,7 +384,24 @@ export default Vue.extend({
       return process.env
     },
   },
-  
+  created() {
+    const s = getModule(CompendiumStore, this.$store)
+    this.genericExample = s.MechSystems.find(x => x.ID === 'ms_eva_module')
+    this.chargeExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_smoke_charges')
+    this.deployExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_jericho_deployable_cover')
+    this.droneExample = s.MechSystems.find(x => x.ID === 'ms_turret_drones')
+    this.multipleExample = s.MechSystems.find(x => x.ID === 'ms_reinforced_cabling')
+    this.aiExample = s.MechSystems.find(x => x.ID === 'ms_sekhmet_class_nhp')
+    this.techExample = s.MechSystems.find(x => x.ID === 'ms_neurospike')
+    this.reactionExample = s.MechSystems.find(x => x.ID === 'ms_singularity_motivator')
+    this.profileExample = s.MechWeapons.find(x => x.ID === 'mw_siege_cannon')
+    this.onAttackExample = s.MechWeapons.find(x => x.ID === 'mw_plasma_thrower')
+    this.onHitExample = s.MechWeapons.find(x => x.ID === 'mw_annihilator')
+    this.onCritExample = s.MechWeapons.find(x => x.ID === 'mw_chain_axe')
+    this.asDroneExample = s.MechWeapons.find(x => x.ID === 'mw_ghast_nexus')
+    this.exampleTalents = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4)
+    console.log(this.exampleTalents)
+  },
   methods: {
     allIcons() {
       return icons.slice(0,5)
@@ -385,11 +422,14 @@ export default Vue.extend({
         this.$vuetify.theme.themes.dark.secondary=this.colorpickerSecondary
         this.$vuetify.theme.themes.dark.accent=this.colorpickerAccent
         this.$vuetify.theme.themes.dark.background=this.colorpickerBackground
+        this.$vuetify.theme.themes.dark.background=this.colorpickerBackground
+        this.$vuetify.theme.themes.dark.headers=this.colorpickerHeaders
       } else {
         this.$vuetify.theme.themes.light.primary=this.colorpickerPrimary
         this.$vuetify.theme.themes.light.secondary=this.colorpickerSecondary
         this.$vuetify.theme.themes.light.accent=this.colorpickerAccent
-        this.$vuetify.theme.themes.light.background=this.colorpickerBackground        
+        this.$vuetify.theme.themes.light.background=this.colorpickerBackground
+        this.$vuetify.theme.themes.light.headers=this.colorpickerHeaders        
       }
     },
     saveUI() {
