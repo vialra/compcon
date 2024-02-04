@@ -1,30 +1,53 @@
 <template>
-  <v-container>
+  <v-container><cc-title class="mb-2">Colorscheme-Core</cc-title>
+    <v-divider />
+    
+    <v-row>
+      <!--v-col>
+        <v-color-picker v-model="colorpickerPrimary" mode="hexa" canvas-height="150" width="150" @update:color="updateUI"></v-color-picker>
+        <span color="primary">Primary</span>
+      </v-col-->
+      <v-col>
+        <v-color-picker v-model="colorpickerBackground" mode="hexa" @update:color="updateUI"></v-color-picker>
+        Background
+      </v-col>
+      <v-col>
+        <v-color-picker v-model="colorpickerPrimary" mode="hexa" @update:color="updateUI"></v-color-picker>
+        Primary
+      </v-col>
+      <v-col>
+        <v-color-picker v-model="colorpickerSecondary" mode="hexa" @update:color="updateUI"></v-color-picker>
+        Secondary
+      </v-col>
+      <v-col>
+        <v-color-picker v-model="colorpickerAccent" mode="hexa" @update:color="updateUI"></v-color-picker>
+        Accent
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-switch v-model="themeMode" color="secondary" inset dense hide-details @change="updateUI">
+        <span slot="label">
+          Switch dark and light mode
+          <cc-tooltip
+            title="Thememode"
+            :content="`Some UI-Elements are colored by the framework directly and cant (easily) be modified this mode switches them between white and dark colors`"
+            inline
+          >
+            <v-icon>mdi-information-outline</v-icon>
+          </cc-tooltip>
+        </span>
+      </v-switch>
+      <cc-btn large color="success" @click="saveUI">save UI</cc-btn>
+      later maybe import via textinput (shouldnt be that hard)
+    </v-row>
+    <br />
+
     <v-divider />
     <cc-title class="mb-2">dice menu</cc-title>
     <cc-dice-menu />
     <cc-dice-menu preset="2d6+1" title="preset 1" autoroll />
     <cc-dice-menu preset="2d6+1d20+3d8-9" :preset-accuracy="-2" title="preset 2" />
 
-    <v-divider />
-    <cc-title class="mb-2">new talent ui</cc-title>
-
-    <v-row dense>
-      <cc-talent :talent="exampleTalents[0]" micro rank="2" selectable />
-      <cc-talent :talent="exampleTalents[1]" micro rank="1" />
-      <cc-talent :talent="exampleTalents[2]" micro />
-    </v-row>
-    <v-row dense>
-      <cc-talent :talent="exampleTalents[0]" small rank="2" selectable />
-      <cc-talent :talent="exampleTalents[1]" small rank="1" hide-locked />
-      <cc-talent :talent="exampleTalents[2]" small />
-    </v-row>
-    <cc-talent :talent="exampleTalents[0]" terse rank="1" selectable />
-    <cc-talent :talent="exampleTalents[1]" terse rank="3" />
-    <cc-talent :talent="exampleTalents[2]" terse />
-    <cc-talent :talent="exampleTalents[3]" rank="2" selectable />
-    <cc-talent :talent="exampleTalents[0]" rank="1" />
-    <cc-talent :talent="exampleTalents[1]" />
     <v-divider />
     <cc-title>typography</cc-title>
     <v-row class="mx-5">
@@ -167,9 +190,27 @@
         <v-col cols="2">
           <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
         </v-col>
-        <v-color-picker v-model="colorpickerPrimary" mode="hexa"></v-color-picker>
       </v-row>
     </v-container>
+    <v-divider />
+    <cc-title class="mb-2">new talent ui</cc-title>
+
+    <v-row dense>
+      <cc-talent :talent="exampleTalents[0]" micro rank="2" selectable />
+      <cc-talent :talent="exampleTalents[1]" micro rank="1" />
+      <cc-talent :talent="exampleTalents[2]" micro />
+
+      <cc-talent :talent="exampleTalents[0]" small rank="2" selectable />
+      <cc-talent :talent="exampleTalents[1]" small rank="1" hide-locked />
+      <cc-talent :talent="exampleTalents[2]" small />
+    </v-row>
+    <cc-talent :talent="exampleTalents[0]" terse rank="1" selectable />
+    <cc-talent :talent="exampleTalents[1]" terse rank="3" />
+    <cc-talent :talent="exampleTalents[2]" terse />
+    <cc-talent :talent="exampleTalents[3]" rank="2" selectable />
+    <cc-talent :talent="exampleTalents[0]" rank="1" />
+    <cc-talent :talent="exampleTalents[1]" />
+    
     <router-link to="/">
       <v-btn text x-large>back</v-btn>
     </router-link>
@@ -178,8 +219,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
 
 const icons = [
   'npc-template',
@@ -309,21 +348,13 @@ export default Vue.extend({
     notificationTypes: ['achievement', 'confirmation', 'error'],
     notificationType: 'confirmation',
     exampleTalents: [],
-    chargeExample: null,
-    deployExample: null,
-    droneExample: null,
-    multipleExample: null,
-    aiExample: null,
-    techExample: null,
-    reactionExample: null,
-    genericExample: null,
-    profileExample: null,
-    onAttackExample: null,
-    onHitExample: null,
-    onCritExample: null,
-    asDroneExample: null,
 
+    themeMode: false,
     colorpickerPrimary: '#1976D2',
+    colorpickerSecondary: '#1976D2',
+    colorpickerAccent: '#1976D2',
+    colorpickerBackground: '#1976D2',
+    
   }),
   computed: {
     process() {
@@ -333,63 +364,45 @@ export default Vue.extend({
       return process.env
     },
   },
-  created() {
-    const s = getModule(CompendiumStore, this.$store)
-    this.genericExample = s.MechSystems.find(x => x.ID === 'ms_eva_module')
-    this.chargeExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_smoke_charges')
-    this.deployExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_jericho_deployable_cover')
-    this.droneExample = s.MechSystems.find(x => x.ID === 'ms_turret_drones')
-    this.multipleExample = s.MechSystems.find(x => x.ID === 'ms_reinforced_cabling')
-    this.aiExample = s.MechSystems.find(x => x.ID === 'ms_sekhmet_class_nhp')
-    this.techExample = s.MechSystems.find(x => x.ID === 'ms_neurospike')
-    this.reactionExample = s.MechSystems.find(x => x.ID === 'ms_singularity_motivator')
-    this.profileExample = s.MechWeapons.find(x => x.ID === 'mw_siege_cannon')
-    this.onAttackExample = s.MechWeapons.find(x => x.ID === 'mw_plasma_thrower')
-    this.onHitExample = s.MechWeapons.find(x => x.ID === 'mw_annihilator')
-    this.onCritExample = s.MechWeapons.find(x => x.ID === 'mw_chain_axe')
-    this.asDroneExample = s.MechWeapons.find(x => x.ID === 'mw_ghast_nexus')
-    this.exampleTalents = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4)
-    console.log(this.exampleTalents)
-  },
+  
   methods: {
     allIcons() {
-      return icons
-    },
-    allColors(theme) {
-      const t = this.$vuetify.theme.themes[theme]
-      const output = []
-      Object.keys(t).forEach(e => {
-        output.push({ name: e, color: t[e] })
-      })
-      return output
+      return icons.slice(0,5)
     },
     dialog1Confirm() {
       console.log('dialog 1 confirmed')
     },
     doNotify() {
-      console.log(this.colorpickerPrimary)
-      
-      if(this.$vuetify.theme.isDark){
-        console.info(this.$vuetify.theme.themes.dark.primary)
-        this.$vuetify.theme.themes.dark.primary=this.colorpickerPrimary
-        console.info(this.$vuetify.theme.themes.dark.primary)
-        localStorage.setItem("customtheme", JSON.stringify(this.$vuetify.theme.themes.dark))
-      }
-      if(!this.$vuetify.theme.isDark){
-        console.info(this.$vuetify.theme.themes.light.primary)
-        this.$vuetify.theme.themes.light.primary=this.colorpickerPrimary
-        console.info(this.$vuetify.theme.themes.light.primary)
-        localStorage.setItem("customtheme", JSON.stringify(this.$vuetify.theme.themes.light))
-      }
-
-      
-
-      //TODO persist into a custom theme loaded from storage?
-      //simple table should do
       this.$notify(this.notificationText, this.notificationType, () =>
         console.log('yup, you clicked the notification!', this)
-        
       )
+    },
+    
+    updateUI() {
+      this.$vuetify.theme.isDark=this.themeMode
+      if(this.$vuetify.theme.isDark){
+        this.$vuetify.theme.themes.dark.primary=this.colorpickerPrimary
+        this.$vuetify.theme.themes.dark.secondary=this.colorpickerSecondary
+        this.$vuetify.theme.themes.dark.accent=this.colorpickerAccent
+        this.$vuetify.theme.themes.dark.background=this.colorpickerBackground
+      } else {
+        this.$vuetify.theme.themes.light.primary=this.colorpickerPrimary
+        this.$vuetify.theme.themes.light.secondary=this.colorpickerSecondary
+        this.$vuetify.theme.themes.light.accent=this.colorpickerAccent
+        this.$vuetify.theme.themes.light.background=this.colorpickerBackground        
+      }
+    },
+    saveUI() {
+      console.info("saving custom theme")
+      localStorage.setItem("customThemeMode", this.$vuetify.theme.isDark.toString())
+      if(this.$vuetify.theme.isDark){
+        console.info(this.$vuetify.theme.themes.dark)
+        localStorage.setItem("customTheme", JSON.stringify(this.$vuetify.theme.themes.dark))
+      }
+      if(!this.$vuetify.theme.isDark){
+        console.info(this.$vuetify.theme.themes.light)
+        localStorage.setItem("customTheme", JSON.stringify(this.$vuetify.theme.themes.light))
+      }
     },
   },
 })

@@ -180,7 +180,7 @@
       <router-link to="./ui-test">
         <v-btn small text>UI Test</v-btn>
       </router-link>
-      <router-link to="./ui-customizer">
+      <router-link to="./ui-customizer" v-if="uiCustomizerVisible">
         <v-btn small text>UI Customizer</v-btn>
       </router-link>
     </div>
@@ -205,6 +205,7 @@ export default Vue.extend({
     importDialog: false,
     fileValue: null,
     deleteDialog: false,
+    uiCustomizerVisible: false,
   }),
   computed: {
     user() {
@@ -287,8 +288,12 @@ export default Vue.extend({
       this.deleteDialog = false
     },
     async updateUserTheme() {
+      this.uiCustomizerVisible = this.user.Theme=="custom"
       this.$store.dispatch('updateUserData')
     },
+  },
+  mounted(): void {
+    this.uiCustomizerVisible = this.user.Theme=="custom"
   },
 })
 </script>

@@ -26,7 +26,6 @@ const getThemePreload = () => {
 const SetTheme = (t: string, vuetify: any) => {
   const theme = themes[t] ? themes[t] : themes['gms']
   const isDark = theme.type === 'dark'
-  console.info("i am getting invoked at f5 loading should be here")
 
   if (isDark) {
     vuetify.theme.themes.dark = theme.colors
@@ -36,10 +35,21 @@ const SetTheme = (t: string, vuetify: any) => {
     vuetify.theme.dark = false
   }
 
+  if(localStorage.getItem("customTheme")===null){
+    //push current theme into the storage if empty
+    localStorage.setItem("customThemeMode", JSON.stringify(vuetify.theme.dark))
+    
+    if(isDark){
+      localStorage.setItem("customTheme", JSON.stringify(vuetify.theme.themes.dark))
+    } else {
+      localStorage.setItem("customTheme", JSON.stringify(vuetify.theme.themes.light))
+    }
+  }
+
   if(t=="custom"){
-    console.info("yay i read it")
-    vuetify.theme.themes.dark = JSON.parse(localStorage.getItem("customtheme"))
-    vuetify.theme.themes.light = JSON.parse(localStorage.getItem("customtheme"))
+    vuetify.theme.dark = JSON.parse(localStorage.getItem("customThemeMode"))
+    vuetify.theme.themes.dark = JSON.parse(localStorage.getItem("customTheme"))
+    vuetify.theme.themes.light = JSON.parse(localStorage.getItem("customTheme"))
   }
 }
 
