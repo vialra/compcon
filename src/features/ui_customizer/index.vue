@@ -24,7 +24,7 @@
         Accent
       </v-col>
       <v-col>
-        <v-color-picker v-model="colorpickerHeaders" mode="hexa" @update:color="updateUI"></v-color-picker>
+        <v-color-picker v-model="colorpickerUIBG" mode="hexa" @update:color="updateUI"></v-color-picker>
         Headers
       </v-col>
     </v-row>
@@ -192,7 +192,7 @@
           <v-select v-model="notificationType" class="pt-0 mt-0" :items="notificationTypes" />
         </v-col>
         <v-col cols="2">
-          <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
+          <v-btn :disabled="!notificationText" @click="updateUI">Notify</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -373,9 +373,121 @@ export default Vue.extend({
     colorpickerSecondary: '#1976D2',
     colorpickerAccent: '#1976D2',
     colorpickerBackground: '#1976D2',
-    colorpickerHeaders: '#1976D2',
+    colorpickerUIBG: '#1976D2',
+
+    themeColors: {
+      frame: '#673AB7',
+      system: '#58b434',
+      'mech-system': '#58b434',
+      'pilot-gear': '#58b434',
+      trait: '#673AB7',
+      protocol: '#1b6361',
+      mod: '#00BFA5',
+      'weapon-mod': '#00BFA5',
+      structure: '#F50057',
+      hp: '#0284FF',
+      armor: '#82B1FF',
+      'pilot-armor': '#82B1FF',
+      heat: '#FF7043',
+      stress: '#FF3D00',
+      heatcap: '#EF5350',
+      dangerzone: '#FF1744',
+      repcap: '#8E8E8E',
+      overcharge: '#F50057',
+      corepower: '#00BFA5',
+
+      'action--move': '#C62828',
+      'action--full': '#283593',
+      'action--quick': '#3949AB',
+      'action--overcharge': '#F50057',
+      'action--free': '#00695C',
+      'action--protocol': '#007676',
+      'action--tech': '#802475',
+      'action--invade': '#222222',
+
+      'damage--kinetic': '#757575',
+      'damage--energy': '#29B6F6',
+      'damage--explosive': '#FFA726',
+      'damage--burn': '#B71C1C',
+      'damage--heat': '#FF7043',
+      'damage--variable': '#D500F9',
+
+      'reserve--resource': '#00695C',
+      'reserve--tactical': '#827717',
+      'reserve--mech': '#BF360C',
+      'reserve--project': '#5D4037',
+      'reserve--custom': '#D84315',
+
+      'role--striker': '#bd3f39',
+      'role--defender': '#d67e08',
+      'role--controller': '#398ad6',
+      'role--support': '#6aa84f',
+      'role--artillery': '#a64d79',
+      'role--biological': '#7e52a3',
+
+      'npc--feature': '#991E2A',
+      'npc--trait': '#991E2A',
+      'npc--system': '#58b434',
+      'npc--weapon': '#212121',
+      'npc--tech': '#007674',
+      'npc--reaction': '#512DA8',
+
+      enemy: '#C62828',
+      ally: '#1661b8',
+      neutral: '#455A64',
+
+      // brand colors
+      patreon: '#FF424D',
+      primary: '#11ff11',
+      exotic: '#673AB7',
+      active: '#d93f4e',
+      accent: '#8c1420',
+      secondary: '#283593',
+      pilot: '#424242',
+      error: '#F44336',
+      info: '#1565C0',
+      success: '#00C853',
+      warning: '#FFAB00',
+
+      weapon: '#212121',
+      'mech-weapon': '#212121',
+      'pilot-weapon': '#212121',
+
+      text: '#212121',
+      subtle: '#9E9E9E',
+      stark: '#000',
+      anti: '#fff',
+      'light-text': '#424242',
+      'stark-text': '#000',
+
+      background: '#f4f4f4',
+      panel: '#ccc',
+      tooltip: '#e8e8e8',
+      'light-panel': '#dbdbdb',
+      'dark-panel': '#d6d6d6',
+      'panel-border': '#8a949e',
+      'stark-panel': '#EDEDED',
+
+      'action--downtime': '#37474F',
+      'reserve--organization': '#455A64',
+      'action--reaction': '#512DA8',
+      'v-card': "#dbcfc3",
+      'v-expansion-panel': "#dbcfc3",
+      'v-data-table': "#dbcfc3",
+  },//import gms add custom properties like v-card and then just update the whole thing like thee manaager and chug the whole object in the local storage
     
   }),
+  mounted() {
+    this.themeMode = this.$vuetify.theme.isDark
+    this.colorpickerPrimary = this.$vuetify.theme.themes.dark.primary
+    this.colorpickerSecondary = this.$vuetify.theme.themes.dark.secondary
+    this.colorpickerAccent = this.$vuetify.theme.themes.dark.accent
+    this.colorpickerBackground = this.$vuetify.theme.themes.dark.background
+    //this.colorpickerBackground = this.$vuetify.theme.themes.dark.background
+    //this.colorpickerUIBG = this.$vuetify.theme.themes.dark.'v-card'
+    //'v-expansion-panel': "#dbcfc3",
+    //'v-data-table': "#dbcfc3",
+  },
   computed: {
     process() {
       return process
@@ -422,14 +534,15 @@ export default Vue.extend({
         this.$vuetify.theme.themes.dark.secondary=this.colorpickerSecondary
         this.$vuetify.theme.themes.dark.accent=this.colorpickerAccent
         this.$vuetify.theme.themes.dark.background=this.colorpickerBackground
-        this.$vuetify.theme.themes.dark.background=this.colorpickerBackground
-        this.$vuetify.theme.themes.dark.headers=this.colorpickerHeaders
+        this.$vuetify.theme.themes.dark={'v-card': this.colorpickerUIBG, 'v-expansion-panel': this.colorpickerUIBG, 'v-data-table': this.colorpickerUIBG}
+        this.$vuetify.theme.themes.dark=this.themeColors
       } else {
         this.$vuetify.theme.themes.light.primary=this.colorpickerPrimary
         this.$vuetify.theme.themes.light.secondary=this.colorpickerSecondary
         this.$vuetify.theme.themes.light.accent=this.colorpickerAccent
         this.$vuetify.theme.themes.light.background=this.colorpickerBackground
-        this.$vuetify.theme.themes.light.headers=this.colorpickerHeaders        
+        this.$vuetify.theme.themes.light={'v-card': this.colorpickerUIBG, 'v-expansion-panel': this.colorpickerUIBG, 'v-data-table': this.colorpickerUIBG} 
+        this.$vuetify.theme.themes.light=this.themeColors   
       }
     },
     saveUI() {
