@@ -36,6 +36,7 @@ import SscStart from './startup_logs/ssc'
 import IpsnStart from './startup_logs/ipsn'
 import HaStart from './startup_logs/ha'
 import GalsimStart from './startup_logs/galsim'
+import HorizonStart from './startup_logs/horizon'
 import { HorusStart, HorusChat } from './startup_logs/horus'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
@@ -112,6 +113,8 @@ export default Vue.extend({
           HaStart(this.typer)
         case 'galsim':
           GalsimStart(this.typer) 
+        case 'horizon':
+          HorizonStart(this.typer)
         default:
           GmsStart(this.typer)
           break
