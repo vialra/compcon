@@ -92,7 +92,7 @@ const plog = typer => {
     .type('<span class="secondary--text">Constellar Congress access requested</span>')
     .break()
     .break()
-    .type('<strong>INITIALIZING PIVATE OMNINET TUNNEL⏣</strong>')
+    .type('<strong>INITIALIZING PRIVATE OMNINET TUNNEL⏣</strong>')
     .break()
     .type('analyzing')
     .type(` 𐄫 [[${tracert(0)}]] found`)

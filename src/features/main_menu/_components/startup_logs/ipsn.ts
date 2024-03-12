@@ -123,7 +123,7 @@ const plog = typer => {
     .break()
     .type(`Casualties Opfor ${Math.floor(Math.random() * 30)+7}`)
     .break()
-    .type('Casualties Allies 0 (minor abbresions on armor)')
+    .type('Casualties Allies 0 (minor abrasion on armor)')
     .break()
     .type('Summary: Pirate Squad hid onboard Status: Green')
     .break()
