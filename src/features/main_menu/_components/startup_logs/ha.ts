@@ -67,7 +67,7 @@ const plog = typer => {
     .type('done')
     .break()
     .break()
-    .type('Elevator ride through Ras Shrama commencing')
+    .type('Elevator ride through Ras Shamra commencing')
     .break()
     .type('Checking social credit for access clearance ')
     .pause(150)
