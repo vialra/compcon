@@ -27,27 +27,27 @@ const routes: RouteConfig[] = [
     children: [
       {
         path: '',
-        name: 'gm-toolkit-home',
+        name: 'GM Home',
         component: Home,
       },
       {
         path: '/gm/npc-roster',
-        name: 'npc-roster',
+        name: 'NPC Roster',
         component: NpcRoster,
       },
       {
         path: '/gm/new-npc',
-        name: 'new-npc',
+        name: 'New NPC',
         component: NewNpc,
       },
       {
         path: '/gm/encounter-builder',
-        name: 'encounter-builder',
+        name: 'Encounter Builder',
         component: EncounterBuilder,
         children: [
           {
             path: ':id',
-            name: 'encounter',
+            name: 'Encounter',
             component: EncounterCard,
             props: true,
           },
@@ -59,17 +59,17 @@ const routes: RouteConfig[] = [
         children: [
           {
             path: '',
-            name: 'mission',
+            name: 'Mission Home',
             component: MissionLanding,
           },
           {
             path: 'builder',
-            name: 'mission-builder',
+            name: 'Mission Builder',
             component: MissionBuilder,
             children: [
               {
                 path: ':id',
-                name: 'edit-mission',
+                name: 'Mission Editor',
                 component: MissionCard,
                 props: true,
               },
@@ -77,24 +77,24 @@ const routes: RouteConfig[] = [
           },
           {
             path: 'selector',
-            name: 'mission-selector',
+            name: 'Mission Selector',
             component: MissionSelector,
           },
           {
             path: 'briefing/:id',
-            name: 'mission-briefing',
+            name: 'Mission Briefing',
             props: true,
             component: MissionBriefing,
           },
           {
             path: 'runner/:id',
-            name: 'mission-runner',
+            name: 'Mission Runner',
             props: true,
             component: MissionRunner,
           },
           {
             path: 'debriefing/:id',
-            name: 'mission-debriefing',
+            name: 'Mission Debriefing',
             props: true,
             component: MissionDebriefing,
           },

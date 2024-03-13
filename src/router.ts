@@ -21,12 +21,12 @@ const r = new Router({
   routes: [
     {
       path: '/',
-      name: 'main-menu',
+      name: 'Main Menu',
       component: require('@/features/main_menu/index').default,
     },
     {
       path: '/ui-test',
-      name: 'ui-test',
+      name: 'UI-Test',
       component: require('@/features/ui_test/index').default,
     },
     ...compendiumRoutes.map(route => ({
@@ -60,7 +60,11 @@ r.beforeEach((to, from, next) => {
   next()
 })
 
+const DEFAULT_TITLE = 'COMP/CON';
 r.afterEach((to, from) => {
+  Vue.nextTick(() => {
+    document.title = DEFAULT_TITLE+" "+r.currentRoute.name;
+  });
   updateChecker.checkUpdates()
 })
 

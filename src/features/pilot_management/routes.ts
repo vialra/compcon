@@ -20,11 +20,12 @@ const routes: RouteConfig[] = [
     children: [
       {
         path: '',
-        name: 'pilot_roster',
+        name: 'Pilot Roster',
         component: Roster,
       },
       {
         path: '/print/:pilotID/:mechID',
+        name: 'Sheet Printout',
         component: Print,
         props: true,
       },
@@ -34,22 +35,23 @@ const routes: RouteConfig[] = [
         props: true,
         children: [
           {
-            name: 'pilot_sheet',
+            name: 'Dossier',
             path: '',
             redirect: 'sheet/1',
           },
           {
-            name: 'tactical_profile',
+            name: 'Tactical Profile',
             path: '',
             redirect: 'sheet/2',
           },
           {
-            name: 'mech_hangar',
+            name: 'Mech Hangar',
             path: '',
             redirect: 'sheet/3',
           },
           {
             path: 'sheet/:tab',
+            name: 'Pilot Sheet',
             component: Layout,
             props: true,
           },
@@ -63,17 +65,19 @@ const routes: RouteConfig[] = [
       },
       {
         path: '/active/:pilotID',
+        name: 'Active Sheet',
         props: true,
         component: Active,
       },
       {
         path: 'level/:pilotID',
-        name: 'level-up',
+        name: 'Level Up',
         props: true,
         component: Level,
       },
       {
         path: '/new',
+        name: 'New Pilot',
         component: New,
       },
     ],
